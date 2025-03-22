@@ -43,5 +43,11 @@ def update(id):
     session.commit()
     return redirect("/")
 
+@app.route("/search", methods=['POST'])
+def search():
+    search = request.form['search']
+    users = session.query(User).filter(User.name.like(f'%{search}%')).all()
+    return render_template('index.html', users = users)
+
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
